@@ -37,9 +37,12 @@ class ImageViewer(tk.Tk):
         self.image_frame = tk.Frame(self)
         self.image_label = tk.Label(self.image_frame)
 
-
-        self.entry_field = tk.Entry(self, width=50)
+        self.entry_field = tk.Text(self, wrap=tk.WORD, height=5)
+        # self.entry_field = tk.Entry(self, width=50)
         self.entry_field.bind('<Return>', self.enter)
+        self.entry_field.bind('<Shift-Up>', self.up)
+        self.entry_field.bind('<Shift-Down>', self.down)
+
 
 
         self.next_b = tk.Button(self, text="Next Image", command=self.next)
@@ -61,25 +64,36 @@ class ImageViewer(tk.Tk):
 
         self.load_image()
 
+    def up(self, event):
+        if self.current_column != 2:
+            self.current_column -= 1
+            self.load_row(df, self.current_image)
+
+
+    def down(self, event):
+        if self.current_column != len(df.columns)-1:
+            self.current_column += 1
+            self.load_row(df, self.current_image)
 
     def enter(self, event):
         global df
-        text = self.entry_field.get()
-        if self.current_image < len(df):
-            if self.current_column < len(df.columns):
-                print(self.current_image, self.current_column)
-                df.iloc[self.current_image, self.current_column] = text
-                if self.current_column == len(df.columns)-1:
-                    self.next()
+        text = self.entry_field.get("1.0", tk.END)
+        if text != "":
+            if self.current_image < len(df):
+                if self.current_column < len(df.columns):
+                    print(self.current_image, self.current_column)
+                    df.iloc[self.current_image, self.current_column] = text
+        if self.current_column == len(df.columns)-1:
+            self.next()
 
-                    self.current_column = 2
-                else:
-                    self.current_column += 1
-                    self.load_row(df, self.current_image)
+            self.current_column = 2
+        else:
+            self.current_column += 1
+            self.load_row(df, self.current_image)
 
-                df.to_excel(excel_name, index=False)
-        self.entry_field.delete(0, tk.END)
-
+        df.to_excel(excel_name, index=False)
+        self.entry_field.delete("1.0", tk.END)
+        return "break"
 
     def next(self):
         if self.current_image < len(files):
