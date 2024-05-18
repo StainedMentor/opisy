@@ -7,3 +7,6 @@ Po zainstalowaniu `requirements.txt` należy dodać folder z obrazami do folderu
 Zmienić nazwy scieżek w pliku `main.py` na odpowiadające własnej paczce. 
 
 Po uruchomieniu `main.py` wystarczy wpisywać w pole pod obrazkiem opis a na enter automatycznie będzie przechodzić do następnego pola w arkuszu.
+
+
+![nazwa](https://github.com/StainedMentor/opisy/blob/main/preview.png?raw=true)
