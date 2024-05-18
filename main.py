@@ -57,7 +57,7 @@ class ImageViewer(tk.Tk):
         self.listbox.grid(row=0, column=2, rowspan=3, padx=10, pady=10, sticky=tk.NSEW)
 
 
-        df.loc[len(df)] = {}
+        # df.loc[len(df)] = {}
 
         self.load_image()
 
@@ -98,7 +98,7 @@ class ImageViewer(tk.Tk):
         self.image_tk = ImageTk.PhotoImage(image)
         self.image_label.config(image=self.image_tk)
 
-        if len(df) < self.current_image-1:
+        if len(df) == self.current_image+1:
             df.loc[len(df)] = {}
         df.iloc[self.current_image, 1] = files[self.current_image]
         self.current_column = 2
