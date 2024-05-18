@@ -43,7 +43,7 @@ class ImageViewer(tk.Tk):
 
 
         self.next_b = tk.Button(self, text="Next Image", command=self.next)
-        self.previous = tk.Button(self, text="Previous Input", command=self.prev)
+        self.previous = tk.Button(self, text="Previous Image", command=self.prev)
 
         self.listbox = tk.Listbox(self, width=100, height=10)
 
