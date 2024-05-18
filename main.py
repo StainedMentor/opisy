@@ -49,7 +49,7 @@ class ImageViewer(tk.Tk):
         self.image_frame = tk.Frame(self)
         self.image_label = tk.Label(self.image_frame)
 
-        self.entry_field = tk.Text(self, wrap=tk.WORD, height=5, font=(font_name, font_size))
+        self.entry_field = tk.Text(self,width=50, wrap=tk.WORD, height=5, font=(font_name, font_size))
         self.entry_field.bind('<Return>', self.enter)
         self.entry_field.bind('<Shift-Up>', self.up)
         self.entry_field.bind('<Shift-Down>', self.down)
@@ -62,20 +62,25 @@ class ImageViewer(tk.Tk):
         self.listbox = tk.Listbox(self, width=100, height=10, font=(font_name, font_size))
 
 
+        self.next_param = tk.Button(self, text="Next Field", command=self.down_b)
+        self.prev_param = tk.Button(self, text="Previous Field", command=self.up_b)
 
-
-        self.selector = tk.Listbox(self, font=(font_name, font_size))
+        self.selector = tk.Listbox(self, width=50, font=(font_name, font_size))
 
 
         self.selector.bind('<<ListboxSelect>>', self.on_select)
 
-        self.image_frame.grid(row=0, column=0,columnspan=2, padx=5, pady=5, sticky=tk.E)
-        self.image_label.grid(row=0, column=0,columnspan=2, padx=5, pady=5, sticky=tk.E)
-        self.entry_field.grid(row=1, column=0,columnspan=2, padx=5, pady=5, sticky=tk.E)
+        self.image_frame.grid(row=0, column=0,columnspan=1, padx=5, pady=5, sticky=tk.E)
+        self.image_label.grid(row=0, column=0,columnspan=1, padx=5, pady=5, sticky=tk.E)
+        self.entry_field.grid(row=1, column=0,columnspan=1, padx=5, pady=5, sticky=tk.E)
+
         self.next_b.grid(row=2, column=1, padx=5, pady=5)
-        self.previous.grid(row=2, column=0, padx=5, pady=5)
-        self.listbox.grid(row=0, column=2, rowspan=3, padx=10, pady=10, sticky=tk.NSEW)
-        self.selector.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky=tk.NSEW)
+        self.previous.grid(row=2, column=2, padx=5, pady=5)
+        self.next_param.grid(row=3, column=1, padx=5, pady=5)
+        self.prev_param.grid(row=3, column=2, padx=5, pady=5)
+
+        self.listbox.grid(row=0, column=1, rowspan=2,columnspan=2, padx=10, pady=10, sticky=tk.NSEW)
+        self.selector.grid(row=2, column=0,rowspan=500, columnspan=1, padx=10, pady=10, sticky=tk.NSEW)
 
 
 
@@ -101,6 +106,19 @@ class ImageViewer(tk.Tk):
                 self.selector.insert(tk.END, item)
         required_height = min(12, self.selector.size())
         self.selector.config(height=required_height)
+
+    def up_b(self):
+        if self.current_column != 2:
+            self.current_column -= 1
+            self.update_available_options()
+            self.load_row(df, self.current_image)
+
+
+    def down_b(self):
+        if self.current_column != len(df.columns)-1:
+            self.current_column += 1
+            self.update_available_options()
+            self.load_row(df, self.current_image)
     def up(self, event):
         if self.current_column != 2:
             self.current_column -= 1
@@ -168,7 +186,8 @@ class ImageViewer(tk.Tk):
             for idx, (column, value) in enumerate(current_row.items()):
                 if idx == self.current_column:
                     self.listbox.insert(tk.END, "-->    " + "{:<30}".format(column + ":") + f"{value}")
-                    self.entry_field.insert("1.0", value)
+                    if str(value).lower() != "nan":
+                        self.entry_field.insert("1.0", value)
                 else:
                     self.listbox.insert(tk.END, "       " + "{:<30}".format(column + ":") + f"{value}")
 
