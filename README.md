@@ -9,5 +9,5 @@ Przekopiować kolumne `IMG_NAME` z dysku (folder pd) do własnego arkusza.
 
 Po uruchomieniu `main.py` wystarczy wpisywać w pole pod obrazkiem opis a na enter automatycznie będzie przechodzić do następnego pola w arkuszu.
 
-
+Można korzystać z **shift-up/down** do wybierania aktualnego pola.
 ![nazwa](https://github.com/StainedMentor/opisy/blob/main/preview.png?raw=true)

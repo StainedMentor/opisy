@@ -1,5 +1,3 @@
-import os
-import glob
 import pandas as pd
 
 import tkinter as tk
@@ -32,7 +30,6 @@ class ImageViewer(tk.Tk):
         self.image_label = tk.Label(self.image_frame)
 
         self.entry_field = tk.Text(self, wrap=tk.WORD, height=5)
-        # self.entry_field = tk.Entry(self, width=50)
         self.entry_field.bind('<Return>', self.enter)
         self.entry_field.bind('<Shift-Up>', self.up)
         self.entry_field.bind('<Shift-Down>', self.down)
@@ -53,8 +50,6 @@ class ImageViewer(tk.Tk):
         self.previous.grid(row=2, column=0, padx=5, pady=5)
         self.listbox.grid(row=0, column=2, rowspan=3, padx=10, pady=10, sticky=tk.NSEW)
 
-
-        # df.loc[len(df)] = {}
 
         self.load_image()
 
