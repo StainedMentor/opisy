@@ -13,17 +13,11 @@ df = pd.read_excel(excel_name)
 extensions = ['png', 'jpg', 'jpeg']
 
 
-
-def list_files(directory):
-    files = []
-    for ext in extensions:
-        files.extend(glob.glob(os.path.join(directory, f'*.{ext}')))
-    return files
-
-files = list_files(directory)
+files = df['IMG_NAME'].tolist()
 
 
-
+for index, file in enumerate(files):
+    files[index] = directory+"/"+file
 
 
 class ImageViewer(tk.Tk):
@@ -112,9 +106,7 @@ class ImageViewer(tk.Tk):
         self.image_tk = ImageTk.PhotoImage(image)
         self.image_label.config(image=self.image_tk)
 
-        if len(df) == self.current_image+1:
-            df.loc[len(df)] = {}
-        df.iloc[self.current_image, 1] = files[self.current_image]
+
         self.current_column = 2
         self.load_row(df, self.current_image)
 
